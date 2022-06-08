@@ -1,3 +1,51 @@
 <template>
-  <h1>news list</h1>
+  <div>
+    <page-title label="NEWS" />
+    <news-list :list="posts" />
+  </div>
 </template>
+
+<script>
+import HeaderMeta from '~/mixins/meta'
+export default {
+  name: 'NewsIndexPage',
+  mixins: [HeaderMeta],
+  // データをWPから取得し、ページコンポーネントへ直接セットする
+  async asyncData ({ $config, $axios }) {
+    // WP REST APIのベースURL
+    const baseUrl = $config.wpBaseUrl
+    // お知らせの記事を10件取得するためのエンドポイント作成
+    const newsUrl = baseUrl + 'posts?_embed&per_page=10&categories=2'
+
+    // 記事を取得
+    const posts = await $axios.$get(newsUrl)
+    // <template></template>で使えるようにする
+
+    // posts: posts
+    return {
+      posts
+    }
+  },
+  data () {
+    return {
+      meta: {
+        title: 'お知らせ一覧',
+        description: 'お知らせ一覧のdescription',
+        ogUrl: 'https://example.com/news/'
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+// ページタイトル
+.-title {
+  padding: 80px 0;
+  font-size: 4rem;
+  color: $colorCorporateMain;
+  @media #{$sp} {
+    padding: 80px 0 40px;
+  }
+}
+</style>

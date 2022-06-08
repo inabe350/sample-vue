@@ -64,3 +64,73 @@ textarea {
   font-family: inherit;
   font-size: 100%;
 }
+
+// さらにカスタマイズしたい場合
+$t-duration: 800ms;
+.page-enter-active,
+.page-leave-active {
+  transition-duration: $t-duration * 2;
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100vh;
+    transition-property: transform;
+    transition-timing-function: ease-in-out;
+  }
+  &::before {
+    background-color: $colorCorporateMain;
+    z-index: 9999;
+  }
+}
+
+// ページ切り替わる直前
+// 開始状態
+.page-leave {
+  &::before {
+    // マスクの縦幅を0に
+    transform: scaleY(0);
+  }
+}
+// 実行中
+.page-leave-active {
+  &::before {
+    transition-duration: $t-duration;
+  }
+}
+// 終了状態
+.page-leave-to {
+  &::before {
+    // マスクの縦幅を100%に
+    transform: scale(1);
+    // 中心点のy座標を上端に
+    transform-origin: top;
+  }
+}
+
+// ページ切り替わった直後
+// 開始状態
+.page-enter {
+  &::before {
+    // マスクの横幅を100%に
+    transform: scaleY(1);
+  }
+}
+// 実行中
+.page-enter-active {
+  &::before {
+    transition-duration: $t-duration;
+  }
+}
+// 終了状態
+.page-enter-to {
+  &::before {
+    // マスクの横幅を0に（非表示）
+    transform: scaleY(0);
+    // 中心点のy座標を下端に
+    transform-origin: bottom;
+  }
+}

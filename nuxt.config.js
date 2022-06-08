@@ -1,5 +1,4 @@
 export default {
-
   srcDir: './src',
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -16,18 +15,16 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    { src: 'assets/scss/common.scss' },
-  ],
+  css: [{ src: 'assets/scss/common.scss' }],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/dateFilter', // 追加
+    '~/plugins/descriptionFilter' // 追加
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,7 +33,15 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    [
+      '@nuxtjs/google-fonts',
+      {
+        families: {
+          'Noto Sans JP': [400, 500, 700]
+        }
+      }
+    ]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,7 +53,7 @@ export default {
   ],
 
   styleResources: {
-    scss: ['assets/scss/_variables.scss'],
+    scss: ['assets/scss/_variables.scss']
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -58,6 +63,9 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
+  build: {},
+
+  publicRuntimeConfig: {
+    wpBaseUrl: process.env.WP_BASE_URL
   }
 }
